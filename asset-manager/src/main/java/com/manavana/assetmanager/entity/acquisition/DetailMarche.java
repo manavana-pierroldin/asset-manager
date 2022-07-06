@@ -1,11 +1,13 @@
 package com.manavana.assetmanager.entity.acquisition;
 
+import com.manavana.assetmanager.entity.common.ArticleGenerique;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "detail_marche")
 public class DetailMarche {
-    @Id
+
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -15,6 +17,18 @@ public class DetailMarche {
 
     @Column(name = "prix_unitaire")
     private Double prix_unitaire;
+
+    @ManyToOne
+    @JoinColumn(name = "article_generique_id")
+    private ArticleGenerique articleGenerique;
+
+    public ArticleGenerique getArticleGenerique() {
+        return articleGenerique;
+    }
+
+    public void setArticleGenerique(ArticleGenerique articleGenerique) {
+        this.articleGenerique = articleGenerique;
+    }
 
     public Double getPrix_unitaire() {
         return prix_unitaire;
@@ -31,7 +45,7 @@ public class DetailMarche {
     public void setQuantite(Double quantite) {
         this.quantite = quantite;
     }
-
+    @Id
     public Long getId() {
         return id;
     }

@@ -1,11 +1,13 @@
 package com.manavana.assetmanager.entity.acquisition;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "fournisseur")
 public class Fournisseur {
-    @Id
+
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -33,6 +35,17 @@ public class Fournisseur {
 
     @Column(name = "code_postale")
     private String code_postale;
+
+    @OneToMany(mappedBy = "fournisseur", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Offre> offres = new ArrayList<>();
+
+    public List<Offre> getOffres() {
+        return offres;
+    }
+
+    public void setOffres(List<Offre> offres) {
+        this.offres = offres;
+    }
 
     public String getCode_postale() {
         return code_postale;
@@ -97,7 +110,7 @@ public class Fournisseur {
     public void setRaison_sociale(String raison_sociale) {
         this.raison_sociale = raison_sociale;
     }
-
+    @Id
     public Long getId() {
         return id;
     }

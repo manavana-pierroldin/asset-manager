@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "detail_offre")
 public class DetailOffre {
-    @Id
+
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -18,6 +18,30 @@ public class DetailOffre {
 
     @Column(name = "marque")
     private String marque;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bien_id")
+    private Bien bien;
+
+    @ManyToOne
+    @JoinColumn(name = "offre_id")
+    private Offre offre;
+
+    public Offre getOffre() {
+        return offre;
+    }
+
+    public void setOffre(Offre offre) {
+        this.offre = offre;
+    }
+
+    public Bien getBien() {
+        return bien;
+    }
+
+    public void setBien(Bien bien) {
+        this.bien = bien;
+    }
 
     public String getMarque() {
         return marque;
@@ -42,7 +66,7 @@ public class DetailOffre {
     public void setPrix_unitaire(Double prix_unitaire) {
         this.prix_unitaire = prix_unitaire;
     }
-
+    @Id
     public Long getId() {
         return id;
     }

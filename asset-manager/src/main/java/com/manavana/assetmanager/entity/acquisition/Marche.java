@@ -6,6 +6,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "marche")
 public class Marche {
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -14,6 +15,17 @@ public class Marche {
 
     @Column(name = "date_limite")
     private Date date_limite;
+
+    @OneToOne(mappedBy = "marche", orphanRemoval = true)
+    private Offre offre;
+
+    public Offre getOffre() {
+        return offre;
+    }
+
+    public void setOffre(Offre offre) {
+        this.offre = offre;
+    }
 
     public Date getDate_limite() {
         return date_limite;
@@ -31,7 +43,6 @@ public class Marche {
         this.date = date;
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }

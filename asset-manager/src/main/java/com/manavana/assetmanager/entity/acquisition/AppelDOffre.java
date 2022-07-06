@@ -1,15 +1,14 @@
 package com.manavana.assetmanager.entity.acquisition;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "appel_d_offre")
 public class AppelDOffre {
-    @Id
+
     @Column(name = "reference", nullable = false)
     private String reference;
 
@@ -30,6 +29,28 @@ public class AppelDOffre {
 
     @Column(name = "eligibilite")
     private String eligibilite;
+
+    @OneToMany(mappedBy = "appelDOffre", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetailAppelOffre> detailAppelOffres = new ArrayList<>();
+
+    @OneToMany(mappedBy = "appelDOffre", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Offre> offres = new ArrayList<>();
+
+    public List<Offre> getOffres() {
+        return offres;
+    }
+
+    public void setOffres(List<Offre> offres) {
+        this.offres = offres;
+    }
+
+    public List<DetailAppelOffre> getDetailAppelOffres() {
+        return detailAppelOffres;
+    }
+
+    public void setDetailAppelOffres(List<DetailAppelOffre> detailAppelOffres) {
+        this.detailAppelOffres = detailAppelOffres;
+    }
 
     public String getEligibilite() {
         return eligibilite;
@@ -78,11 +99,10 @@ public class AppelDOffre {
     public void setDate(Date date) {
         this.date = date;
     }
-
+    @Id
     public String getReference() {
         return reference;
     }
-
     public void setReference(String reference) {
         this.reference = reference;
     }
