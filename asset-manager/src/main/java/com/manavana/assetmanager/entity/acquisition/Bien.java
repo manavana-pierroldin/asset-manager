@@ -55,7 +55,7 @@ public class Bien {
     public void setDesignation(String designation) {
         this.designation = designation;
     }
-    @Id
+
     public Long getId() {
         return id;
     }

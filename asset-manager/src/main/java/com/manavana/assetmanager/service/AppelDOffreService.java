@@ -14,7 +14,12 @@ public class AppelDOffreService implements IAppelDoffreService{
     @Autowired
     AppelDOffreRepository aoRepo;
     @Override
-    public List<String>getAll(){
-        return Optional.ofNullable(List.of("a","d","d")).orElseThrow(()->new RuntimeException("Liste vide"));
+    public List<AppelDOffre>getAll(){
+        return Optional.ofNullable(aoRepo.findAll()).orElseThrow(()->new RuntimeException("Liste vide"));
+    }
+
+    @Override
+    public AppelDOffre getAppelOffre(String reference) {
+        return Optional.ofNullable(aoRepo.findByReference(reference)).orElseThrow(()->new RuntimeException("AppelOffre Introuvable"));
     }
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AppelDOffreRepository extends JpaRepository<AppelDOffre, String> {
+    AppelDOffre findByReference(String reference);
 }

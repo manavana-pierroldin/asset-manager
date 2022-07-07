@@ -6,5 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IAppelDoffreService {
-    List<String>getAll();
+    List<AppelDOffre>getAll();
+
+    AppelDOffre getAppelOffre(String reference);
 }

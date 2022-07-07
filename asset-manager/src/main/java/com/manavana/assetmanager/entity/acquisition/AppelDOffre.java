@@ -1,10 +1,11 @@
 package com.manavana.assetmanager.entity.acquisition;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
 @Entity
 @Table(name = "appel_d_offre")
 public class AppelDOffre {
