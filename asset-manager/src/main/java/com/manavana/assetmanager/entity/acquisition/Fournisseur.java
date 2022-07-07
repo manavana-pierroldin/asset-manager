@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "fournisseur")
 public class Fournisseur {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -110,7 +110,7 @@ public class Fournisseur {
     public void setRaison_sociale(String raison_sociale) {
         this.raison_sociale = raison_sociale;
     }
-    @Id
+
     public Long getId() {
         return id;
     }

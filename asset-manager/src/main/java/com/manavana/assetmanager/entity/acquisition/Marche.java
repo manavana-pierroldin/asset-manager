@@ -6,6 +6,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "marche")
 public class Marche {
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -42,7 +43,7 @@ public class Marche {
     public void setDate(Date date) {
         this.date = date;
     }
-    @Id
+
     public Long getId() {
         return id;
     }

@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "detail_appel_offre")
 public class DetailAppelOffre {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -44,7 +44,7 @@ public class DetailAppelOffre {
     public void setQuantite(Double quantite) {
         this.quantite = quantite;
     }
-    @Id
+
     public Long getId() {
         return id;
     }

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "article_generique")
 public class ArticleGenerique {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -60,7 +60,7 @@ public class ArticleGenerique {
         this.designation = designation;
     }
 
-    @Id
+
     public Long getId() {
         return id;
     }

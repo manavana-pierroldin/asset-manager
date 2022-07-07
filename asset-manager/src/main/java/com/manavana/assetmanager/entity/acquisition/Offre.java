@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "offre")
 public class Offre {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -81,7 +81,7 @@ public class Offre {
     public void setDate(Date date) {
         this.date = date;
     }
-    @Id
+
     public Long getId() {
         return id;
     }

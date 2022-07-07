@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "article")
 public class Article {
-
+    @Id
     @Column(name = "code_article", nullable = false)
     private String code_article;
 
@@ -109,7 +109,6 @@ public class Article {
         this.designation = designation;
     }
 
-    @Id
     public String getCode_article() {
         return code_article;
     }

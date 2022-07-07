@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "appel_d_offre")
 public class AppelDOffre {
-
+    @Id
     @Column(name = "reference", nullable = false)
     private String reference;
 
@@ -99,7 +99,6 @@ public class AppelDOffre {
     public void setDate(Date date) {
         this.date = date;
     }
-    @Id
     public String getReference() {
         return reference;
     }

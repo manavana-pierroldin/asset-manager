@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "bien")
 public class Bien {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;

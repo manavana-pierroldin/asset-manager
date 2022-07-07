@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "detail_offre")
 public class DetailOffre {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -66,7 +66,7 @@ public class DetailOffre {
     public void setPrix_unitaire(Double prix_unitaire) {
         this.prix_unitaire = prix_unitaire;
     }
-    @Id
+
     public Long getId() {
         return id;
     }
