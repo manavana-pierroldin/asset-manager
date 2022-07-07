@@ -2,6 +2,7 @@ package com.manavana.assetmanager.controller.acquisition;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
@@ -9,9 +10,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.manavana.assetmanager.entity.acquisition.AppelDOffre;
 import com.manavana.assetmanager.service.AppelDOffreService;
-import org.hibernate.mapping.Filterable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,28 +24,31 @@ public class AppelDOffreController {
     private AppelDOffreService aoService;
     @GetMapping("/appelsoffres")
     List<AppelDOffre> getAllAppelDOffre() throws Exception{
-        List<AppelDOffre> appelDOffres= aoService.getAll();
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        mapper.addMixIn(AppelDOffre.class, FilterableAppelDoffre.class);
-        SimpleBeanPropertyFilter simpleBeanFilter = SimpleBeanPropertyFilter.filterOutAllExcept("reference", "date", "objet");
-        FilterProvider filterProvider = new SimpleFilterProvider().addFilter("aoFilter",simpleBeanFilter);
-        ObjectWriter writer = mapper.writer(filterProvider);
-        String writeValueAsString = writer.writeValueAsString(appelDOffres);
-        List<AppelDOffre> result = mapper.readValue(writeValueAsString, List.class);
-
-        return result;
+        List<AppelDOffre> appelsoffres = aoService.getAll();
+        String[] propertiesToKeep = {"reference", "date", "objet"};
+        String filterName = "aoFilter";
+        return filter(AppelDOffre.class,FilteredAppelDoffre.class, appelsoffres, propertiesToKeep, filterName);
     }
-
     @GetMapping("/appeloffre/{reference}")
     AppelDOffre getAppelOffre(@PathVariable String reference){
         return aoService.getAppelOffre(reference);
     }
+
     @JsonFilter("aoFilter")
-    private class FilterableAppelDoffre {
+    private class FilteredAppelDoffre {
         String reference;
         Date date;
         String objet;
+    }
+    private <I,F> List<I> filter(Class<I> item, Class<F> result, List<I> toFilter, String[] propertiesToKeep, String filterName) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.addMixIn(item,result);
+        SimpleBeanPropertyFilter simpleBeanFilter = SimpleBeanPropertyFilter.filterOutAllExcept(propertiesToKeep);
+        FilterProvider filterProvider = new SimpleFilterProvider().addFilter(filterName,simpleBeanFilter);
+        ObjectWriter writer = mapper.writer(filterProvider);
+        String writeValueAsString = writer.writeValueAsString(toFilter);
+        List<I> filtered = mapper.readValue(writeValueAsString, List.class);
+        return filtered;
     }
 }
