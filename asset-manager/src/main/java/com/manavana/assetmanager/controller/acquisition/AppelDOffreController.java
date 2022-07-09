@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.manavana.assetmanager.dto.acquisition.AppelDOffreDTO;
+import com.manavana.assetmanager.dto.acquisition.SearchAppelDOffreDTO;
 import com.manavana.assetmanager.entity.acquisition.AppelDOffre;
 import com.manavana.assetmanager.service.AppelDOffreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,17 @@ public class AppelDOffreController {
     AppelDOffre deleteAppelOffre(@PathVariable String reference){
         aoService.deleteAppelOffre(reference);
         return null;
+    }
+    @GetMapping("/appeloffre/search")
+    List<AppelDOffre>searchAppelDOffre(@RequestBody SearchAppelDOffreDTO searchAppelDOffreDTO) throws JsonProcessingException {
+
+        String text=searchAppelDOffreDTO.getText();
+        List<String> fields=searchAppelDOffreDTO.getFields();
+        int limit=searchAppelDOffreDTO.getLimit();
+        List<AppelDOffre> result = aoService.searchAppelDOffre(text,fields, limit);
+        String[] propertiesToKeep = { "reference", "date", "objet" };
+        String filterName = "aoFilter";
+        return filter(AppelDOffre.class,FilteredAppelDoffre.class, result, propertiesToKeep, filterName);
     }
 
     @JsonFilter("aoFilter")

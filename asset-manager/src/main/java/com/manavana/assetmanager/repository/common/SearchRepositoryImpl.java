@@ -5,6 +5,7 @@ import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -26,7 +27,7 @@ public class SearchRepositoryImpl<T,ID extends Serializable> extends SimpleJpaRe
     }
 
     @Override
-    public List<T> searchBy(String text, int limit, String... fields) {
+    public List<T> searchBy(String text, int limit, String ... fields) {
         SearchResult<T> result=getSearchResult(text, limit, fields);
         return result.hits();
     }
@@ -35,7 +36,7 @@ public class SearchRepositoryImpl<T,ID extends Serializable> extends SimpleJpaRe
         SearchSession searchSession= Search.session(entityManager);
         SearchResult<T> result=searchSession
                 .search(getDomainClass())
-                .where(f->f.match().fields(fields).matching(text).fuzzy(2))
+                .where(f->f.match().fields(fields).matching(text+"*")/*.fuzzy(2)*/)
                 .fetch(limit);
         return  result;
     }

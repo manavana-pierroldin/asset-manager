@@ -22,13 +22,13 @@ public class AppelDOffre {
 
     @Column(name = "budget")
     private Double budget;
-
+    @FullTextField()
     @Column(name = "description", length = 1000)
     private String description;
 
     @Column(name = "date_limite")
     private Date date_limite;
-
+    @FullTextField()
     @Column(name = "objet")
     private String objet;
 
