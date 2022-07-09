@@ -9,4 +9,6 @@ public interface IAppelDoffreService {
     List<AppelDOffre>getAll();
 
     AppelDOffre getAppelOffre(String reference);
+
+    void deleteAppelOffre(String reference);
 }

@@ -8,12 +8,11 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.manavana.assetmanager.dto.acquisition.AppelDOffreDTO;
 import com.manavana.assetmanager.entity.acquisition.AppelDOffre;
 import com.manavana.assetmanager.service.AppelDOffreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.List;
@@ -25,13 +24,25 @@ public class AppelDOffreController {
     @GetMapping("/appelsoffres")
     List<AppelDOffre> getAllAppelDOffre() throws Exception{
         List<AppelDOffre> appelsoffres = aoService.getAll();
-        String[] propertiesToKeep = {"reference", "date", "objet"};
+        String[] propertiesToKeep = { "reference", "date", "objet" };
         String filterName = "aoFilter";
         return filter(AppelDOffre.class,FilteredAppelDoffre.class, appelsoffres, propertiesToKeep, filterName);
     }
+
     @GetMapping("/appeloffre/{reference}")
     AppelDOffre getAppelOffre(@PathVariable String reference){
         return aoService.getAppelOffre(reference);
+    }
+
+    @PutMapping("/appeloffre")
+    AppelDOffre updateAppelOffre(@RequestBody AppelDOffreDTO appelDOffreDTO){
+        return  null;
+    }
+
+    @DeleteMapping("/appeloffre/{reference}")
+    AppelDOffre deleteAppelOffre(@PathVariable String reference){
+        aoService.deleteAppelOffre(reference);
+        return null;
     }
 
     @JsonFilter("aoFilter")

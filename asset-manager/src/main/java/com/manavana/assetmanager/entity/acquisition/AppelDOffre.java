@@ -1,14 +1,18 @@
 package com.manavana.assetmanager.entity.acquisition;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+@Indexed
 @Entity
 @Table(name = "appel_d_offre")
 public class AppelDOffre {
+    @FullTextField()
     @Id
     @Column(name = "reference", nullable = false)
     private String reference;

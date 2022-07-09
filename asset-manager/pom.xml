@@ -15,6 +15,7 @@
     <description>asset-manager</description>
     <properties>
         <java.version>17</java.version>
+        <hibernate-search-mapper-orm.version>6.1.5.Final</hibernate-search-mapper-orm.version>
     </properties>
     <dependencies>
         <dependency>
@@ -30,12 +31,22 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.search</groupId>
+            <artifactId>hibernate-search-mapper-orm</artifactId>
+            <version>${hibernate-search-mapper-orm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.search</groupId>
+            <artifactId>hibernate-search-backend-lucene</artifactId>
+            <version>${hibernate-search-mapper-orm.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
