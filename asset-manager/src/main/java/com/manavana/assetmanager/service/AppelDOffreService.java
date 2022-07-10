@@ -24,13 +24,34 @@ public class AppelDOffreService implements IAppelDoffreService{
 
     @Override
     public AppelDOffre getAppelOffre(String reference) {
-        return Optional.ofNullable(aoRepo.findByReference(reference)).orElseThrow(()->new RuntimeException("AppelOffre Introuvable"));
+        AppelDOffre aoFound = aoRepo.findByReference(reference);
+        return Optional.ofNullable(aoFound).orElseThrow(()->new RuntimeException("AppelOffre Introuvable"));
     }
 
     @Transactional
     @Override
     public void deleteAppelOffre(String reference) {
         aoRepo.deleteByReference(reference);
+    }
+    @Override
+    public void saveAO(AppelDOffre appelDOffre) {
+        AppelDOffre  ao=aoRepo.save(appelDOffre);
+    }
+
+    @Transactional
+    @Override
+    public void updateAO(AppelDOffre uappelDOffre) { AppelDOffre ao=aoRepo.save(uappelDOffre); }
+
+    @Override
+    public List<AppelDOffre> getSortedAppelDOffre(String sortfield) {
+        switch (sortfield){
+            case "date":
+                return aoRepo.findByOrderByDateDesc();
+            case "budget":
+                return aoRepo.findByOrderByBudgetAsc();
+            default:
+                return aoRepo.findByOrderByDateDesc();
+        }
     }
 
     public List<AppelDOffre> searchAppelDOffre(String text, List<String> fields, int limit) {

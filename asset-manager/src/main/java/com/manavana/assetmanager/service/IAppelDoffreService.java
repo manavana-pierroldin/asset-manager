@@ -11,4 +11,10 @@ public interface IAppelDoffreService {
     AppelDOffre getAppelOffre(String reference);
 
     void deleteAppelOffre(String reference);
+
+    void saveAO(AppelDOffre appelDOffre);
+
+    void updateAO(AppelDOffre uappelDOffre);
+
+    List<AppelDOffre> getSortedAppelDOffre(String sortfield);
 }

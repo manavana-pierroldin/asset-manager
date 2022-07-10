@@ -5,8 +5,16 @@ import com.manavana.assetmanager.repository.common.SearchRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AppelDOffreRepository extends SearchRepository<AppelDOffre, String>  {
-    AppelDOffre findByReference(String reference);
     void deleteByReference(String reference);
+    AppelDOffre findByReference(String reference);
+
+    List<AppelDOffre> findByOrderByDateDesc();
+
+    List<AppelDOffre> findByOrderByBudgetAsc();
+
+
 }

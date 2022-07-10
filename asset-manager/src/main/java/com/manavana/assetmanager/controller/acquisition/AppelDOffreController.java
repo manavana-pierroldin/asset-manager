@@ -12,7 +12,10 @@ import com.manavana.assetmanager.dto.acquisition.AppelDOffreDTO;
 import com.manavana.assetmanager.dto.acquisition.SearchAppelDOffreDTO;
 import com.manavana.assetmanager.entity.acquisition.AppelDOffre;
 import com.manavana.assetmanager.service.AppelDOffreService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -22,6 +25,9 @@ import java.util.List;
 public class AppelDOffreController {
     @Autowired
     private AppelDOffreService aoService;
+    @Autowired
+    private ModelMapper modelMapper;
+
     @GetMapping("/appeloffre")
     List<AppelDOffre> getAllAppelDOffre() throws Exception{
         List<AppelDOffre> appelsoffres = aoService.getAll();
@@ -30,20 +36,39 @@ public class AppelDOffreController {
         return filter(AppelDOffre.class,FilteredAppelDoffre.class, appelsoffres, propertiesToKeep, filterName);
     }
 
+    @RequestMapping(value={"/appeloffre"}, params = "sortfield")
+    List<AppelDOffre>getSortedAppelDOffre(@RequestParam String sortfield) throws Exception{
+        List<AppelDOffre> appelDOffres=aoService.getSortedAppelDOffre(sortfield);
+        String[] propertiesToKeep = { "reference", "date", "objet" };
+        String filterName = "aoFilter";
+        return filter(AppelDOffre.class,FilteredAppelDoffre.class, appelDOffres, propertiesToKeep, filterName);
+    }
+
     @GetMapping("/appeloffre/{reference}")
     AppelDOffre getAppelOffre(@PathVariable String reference){
+        System.out.println(reference);
         return aoService.getAppelOffre(reference);
     }
 
+    @PostMapping("/appeloffre")
+    ResponseEntity<?> createAppelOffre(@RequestBody AppelDOffreDTO appelDOffreDTO){
+        AppelDOffre appelDOffre=modelMapper.map(appelDOffreDTO, AppelDOffre.class);
+        appelDOffre.setDate(new Date(System.currentTimeMillis()));
+        aoService.saveAO(appelDOffre);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    
     @PutMapping("/appeloffre")
-    AppelDOffre updateAppelOffre(@RequestBody AppelDOffreDTO appelDOffreDTO){
-        return null;
+    ResponseEntity<?>updateAppelOffre(@RequestBody AppelDOffreDTO appelDOffreDTO){
+        AppelDOffre uappelDOffre=modelMapper.map(appelDOffreDTO, AppelDOffre.class);
+        aoService.updateAO(uappelDOffre);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/appeloffre/{reference}")
-    AppelDOffre deleteAppelOffre(@PathVariable String reference){
+    ResponseEntity<?> deleteAppelOffre(@PathVariable String reference){
         aoService.deleteAppelOffre(reference);
-        return null;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/appeloffre/search")
     List<AppelDOffre>searchAppelDOffre(@RequestBody SearchAppelDOffreDTO searchAppelDOffreDTO) throws JsonProcessingException {

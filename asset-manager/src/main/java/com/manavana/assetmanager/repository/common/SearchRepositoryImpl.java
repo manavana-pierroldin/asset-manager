@@ -36,7 +36,7 @@ public class SearchRepositoryImpl<T,ID extends Serializable> extends SimpleJpaRe
         SearchSession searchSession= Search.session(entityManager);
         SearchResult<T> result=searchSession
                 .search(getDomainClass())
-                .where(f->f.match().fields(fields).matching(text+"*")/*.fuzzy(2)*/)
+                .where(f->f.match().fields(fields).matching(text).fuzzy(2))
                 .fetch(limit);
         return  result;
     }

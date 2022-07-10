@@ -3,6 +3,7 @@ package com.manavana.assetmanager;
 import com.manavana.assetmanager.repository.common.Indexer;
 import com.manavana.assetmanager.repository.common.SearchRepository;
 import com.manavana.assetmanager.repository.common.SearchRepositoryImpl;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,10 @@ public class AssetManagerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AssetManagerApplication.class, args);
+    }
+    @Bean
+    public ModelMapper getModelMapper(){
+        return new ModelMapper();
     }
     @Bean
     public ApplicationRunner buildIndex(Indexer indexer) throws  Exception{

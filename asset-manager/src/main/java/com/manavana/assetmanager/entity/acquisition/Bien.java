@@ -1,5 +1,7 @@
 package com.manavana.assetmanager.entity.acquisition;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,40 @@ public class Bien {
 
     @OneToMany(mappedBy = "bien", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetailOffre> detailOffres = new ArrayList<>();
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "appel_d_offre_reference")
+    private AppelDOffre appelDOffre;
+
+    @Column(name = "quantite")
+    private Double quantite;
+
+    @Column(name = "description")
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(Double quantite) {
+        this.quantite = quantite;
+    }
+
+    public AppelDOffre getAppelDOffre() {
+        return appelDOffre;
+    }
+
+    public void setAppelDOffre(AppelDOffre appelDOffre) {
+        this.appelDOffre = appelDOffre;
+    }
 
     public List<DetailOffre> getDetailOffres() {
         return detailOffres;

@@ -8,6 +8,8 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Indexed
 @Entity
 @Table(name = "appel_d_offre")
@@ -40,6 +42,21 @@ public class AppelDOffre {
 
     @OneToMany(mappedBy = "appelDOffre", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Offre> offres = new ArrayList<>();
+
+    @OneToMany(mappedBy = "appelDOffre", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("designation ASC ")
+    private List<Bien> biens = new ArrayList<>();
+
+    public List<Bien> getBiens() {
+        return biens;
+    }
+
+    public void setBiens(List<Bien> biens) {
+        biens.stream()
+                .map(bien->{ bien.setAppelDOffre(this); return bien; })
+                .collect(Collectors.toList());
+        this.biens = biens;
+    }
 
     public List<Offre> getOffres() {
         return offres;
