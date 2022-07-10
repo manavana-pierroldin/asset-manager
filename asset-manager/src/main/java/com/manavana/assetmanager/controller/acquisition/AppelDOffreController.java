@@ -22,7 +22,7 @@ import java.util.List;
 public class AppelDOffreController {
     @Autowired
     private AppelDOffreService aoService;
-    @GetMapping("/appelsoffres")
+    @GetMapping("/appeloffre")
     List<AppelDOffre> getAllAppelDOffre() throws Exception{
         List<AppelDOffre> appelsoffres = aoService.getAll();
         String[] propertiesToKeep = { "reference", "date", "objet" };
@@ -37,7 +37,7 @@ public class AppelDOffreController {
 
     @PutMapping("/appeloffre")
     AppelDOffre updateAppelOffre(@RequestBody AppelDOffreDTO appelDOffreDTO){
-        return  null;
+        return null;
     }
 
     @DeleteMapping("/appeloffre/{reference}")
