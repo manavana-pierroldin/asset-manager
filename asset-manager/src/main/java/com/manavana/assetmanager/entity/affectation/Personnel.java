@@ -1,5 +1,7 @@
 package com.manavana.assetmanager.entity.affectation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +19,14 @@ public class Personnel {
 
     @Column(name = "prenom")
     private String prenom;
-
+    @JsonIgnore
     @Column(name = "mot_de_passe")
     private String mot_de_passe;
 
     @Column(name = "fonction")
     private String fonction;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},fetch = FetchType.EAGER)
     @JoinTable(name = "personnel_roles",
             joinColumns = @JoinColumn(name = "personnel_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
