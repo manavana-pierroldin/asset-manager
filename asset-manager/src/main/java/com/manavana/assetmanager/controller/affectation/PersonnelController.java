@@ -18,9 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,10 +37,8 @@ public class PersonnelController {
 
     @PostMapping("/personnel/login")
     public ResponseEntity<?> authenticateUser(@RequestBody AuthDTO authDTO){
-        System.out.println("Here");
         Authentication auth=authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authDTO.getNom(),authDTO.getMot_de_passe()));
-        System.out.println("ok");
         SecurityContextHolder.getContext().setAuthentication(auth);
         String jwt=jwtUtils.generateJwtToken(auth);
         PersonnelDetails personnelDetails=(PersonnelDetails) auth.getPrincipal();
@@ -65,14 +61,21 @@ public class PersonnelController {
         personnelPayload.setNom(personnel.getNom());
         personnelPayload.setPrenom(personnel.getPrenom());
         personnelPayload.setFonction(personnel.getFonction());
-        System.out.println(personnelPayload.getPersonnel());
         personnelPayload.setRoles(personnel.getRoles());
         return new ResponseEntity<>(personnelPayload,HttpStatus.CREATED);
 
     }
 
-    @PostMapping("/personnel/profile")
-    public ResponseEntity<ProfileDTO>getProfile(@RequestBody PersonnelDTO personnelDTO){
-        return null;
+    @GetMapping("/personnel/profile")
+    public ResponseEntity<ProfileDTO>getProfile(@RequestHeader ("Authorization") String headerAuth){
+        String token=headerAuth.substring(7, headerAuth.length());
+        String username=jwtUtils.getUserNameFromJwtToken(token);
+        Personnel personnel=personnelService.getPersonnelByNom(username);
+        ProfileDTO profileDTO=new ProfileDTO();
+        profileDTO.setNom(personnel.getNom());
+        profileDTO.setPrenom(personnel.getPrenom());
+        profileDTO.setFonction(personnel.getFonction());
+        profileDTO.setRoles(personnel.getRoles());
+        return  new ResponseEntity<>(profileDTO, HttpStatus.OK);
     }
 }

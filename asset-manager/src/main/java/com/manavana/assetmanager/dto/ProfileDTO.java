@@ -61,5 +61,21 @@ public class ProfileDTO {
         public void setRoles(List<Role> roles) {
             this.roles = roles;
         }
+
+    }
+    public void setNom(String nom) {
+        this.personnel.setNom(nom);
+    }
+
+    public void setPrenom(String prenom) {
+        this.personnel.setPrenom(prenom);
+    }
+
+    public void setFonction(String fonction) {
+        this.personnel.setFonction( fonction );
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.personnel.setRoles( roles );
     }
 }

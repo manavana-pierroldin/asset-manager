@@ -16,6 +16,9 @@ public class PersonnelService {
     PersonnelRepository personnelRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+
+
+
     public  Personnel createPersonnel(PersonnelDTO personnelDTO) {
         Personnel personnel=new Personnel();
         personnel.setNom(personnelDTO.getNom());
@@ -28,5 +31,9 @@ public class PersonnelService {
                 .map(r-> { Role role=new Role(); role.setDesignation(r); return role;})
                 .collect(Collectors.toList()));
         return personnelRepository.save(personnel);
+    }
+
+    public Personnel getPersonnelByNom(String nom) {
+        return personnelRepository.findByNom(nom).orElseThrow(()->new RuntimeException("Introuvable"));
     }
 }
