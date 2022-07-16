@@ -16,6 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -34,6 +37,7 @@ public class SecurityConfig   {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
         // We don't need CSRF for this example
+        httpSecurity.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         httpSecurity.csrf().disable()
                 // don't authenticate this particular request
                 .authorizeHttpRequests()
@@ -61,4 +65,15 @@ public class SecurityConfig   {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS");
+            }
+        };
+    }
 }
